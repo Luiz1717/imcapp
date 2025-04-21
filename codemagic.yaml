@@ -6,8 +6,6 @@ workflows:
       flutter: stable
       vars:
         PACKAGE_NAME: "com.example.imcapp"
-      android_signing:
-        keystore_reference: keystore_credentials
       groups:
         - google_play
     scripts:
