@@ -28,14 +28,39 @@ class IMCCalculatorState extends State<IMCCalculator> {
   final _alturaController = TextEditingController();
   String _resultado = '';
 
+  final List<String> results = [
+    "AGUARDANDO DADOS",
+    "MAGREZA",
+    "NORMAL",
+    "SOBREPESO",
+    "OBESIDADE",
+    "OBESIDADE GRAVE",
+  ];
+
   void _calcularIMC() {
     final peso = double.tryParse(_pesoController.text);
     final altura = double.tryParse(_alturaController.text);
 
     if (peso != null && altura != null && altura > 0) {
       final imc = peso / (altura * altura);
+      print('passou aqui');
+
+      String classificacao;
+
+      if (imc < 18.5) {
+        classificacao = results[1];
+      } else if (imc < 24.9) {
+        classificacao = results[2];
+      } else if (imc < 29.9) {
+        classificacao = results[3];
+      } else if (imc < 34.9) {
+        classificacao = results[4];
+      } else {
+        classificacao = results[5];
+      }
+
       setState(() {
-        _resultado = 'Seu IMC é ${imc.toStringAsFixed(2)}';
+        _resultado = 'Seu IMC é ${imc.toStringAsFixed(2)}\nClassificação: $classificacao';
       });
     } else {
       setState(() {
@@ -53,7 +78,15 @@ class IMCCalculatorState extends State<IMCCalculator> {
         child: Form(
           key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const Center(
+                child: Text(
+                  'CALCULADORA DA IMC',
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: _pesoController,
                 keyboardType: TextInputType.number,
@@ -70,7 +103,11 @@ class IMCCalculatorState extends State<IMCCalculator> {
                 child: const Text('Calcular'),
               ),
               const SizedBox(height: 20),
-              Text(_resultado, style: const TextStyle(fontSize: 18)),
+              Text(
+                _resultado,
+                style: const TextStyle(fontSize: 25),
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
         ),
