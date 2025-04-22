@@ -11,15 +11,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do repositório
+      - name: Checkout do reposition
         uses: actions/checkout@v3
 
-      - name: Configurar Flutter
-        uses: subosito/flutter-action@v2
+      - name: Configure Flutter
+        uses: subeditor/flutter-action@v2
         with:
           flutter-version: '3.13.0'
 
-      - name: Instalar pacotes
+      - name: Installer pa cotes
         run: flutter pub get
 
       - name: Análise de código
@@ -28,11 +28,3 @@ jobs:
       - name: Testes unitários
         run: flutter test
 
-      - name: Gerar APK
-        run: flutter build apk --release
-
-      - name: Salvar APK como artefato
-        uses: actions/upload-artifact@v3
-        with:
-          name: app-release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
