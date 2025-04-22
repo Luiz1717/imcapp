@@ -19,7 +19,7 @@ jobs:
         with:
           flutter-version: '3.13.0'
 
-      - name: Installer pa cotes
+      - name: Installer pacotes
         run: flutter pub get
 
       - name: Análise de código
