@@ -1,42 +1,56 @@
+
 pipeline {
   agent any
 
-  environment {
-    FLUTTER_HOME = '/opt/flutter'
-    PATH = "${env.FLUTTER_HOME}/bin:${env.PATH}"
-  }
+    environment {
+    FLUTTER_VERSION = '3.22.0' // ou ajuste se necessário
+    }
 
-  stages {
-    stage('Preparar ambiente') {
+    stages {
+    stage('Clonar Projeto') {
       steps {
-        echo 'Verificando versão do Flutter'
-        sh 'flutter --version'
-      }
-    }
+        git 'https://github.com/Luiz1717/imcapp.git'
+            }
+        }
 
-    stage('Checkout') {
+        stage('Instalar Flutter') {
       steps {
-        git 'https://github.com/Luiz1717/imcapp'
-      }
-    }
+        sh '''
+                    git clone https://github.com/flutter/flutter.git --branch stable
+                    export PATH="$PATH:`pwd`/flutter/bin"
+                    flutter --version
+                '''
+            }
+        }
 
-    stage('Instalar dependências') {
+        stage('Preparar Dependências') {
       steps {
-        sh 'flutter pub get'
-      }
-    }
+        sh '''
+                    export PATH="$PATH:`pwd`/flutter/bin"
+                    flutter pub get
+                '''
+            }
+        }
 
-    stage('Analisar código') {
+        stage('Rodar Testes') {
       steps {
-        sh 'flutter analyze'
-      }
+        sh '''
+                    export PATH="$PATH:`pwd`/flutter/bin"
+                    flutter test integration_test/
+                '''
+            }
+        }
     }
 
-    stage('Executar testes') {
-      steps {
-        sh 'flutter test'
-      }
-
+    post {
+    always {
+      echo 'Pipeline finalizada.'
+        }
+        success {
+      echo '🎉 Build e Testes passaram!'
+        }
+        failure {
+      echo '❌ Falhou em algum estágio.'
+        }
     }
-      }
-    }
+}
