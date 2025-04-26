@@ -11,7 +11,7 @@ pipeline {
     stage('Clonar Projeto') {
       steps {
         git url: 'https://github.com/Luiz1717/imcapp.git',
-                    branch: 'main'
+                    branch: 'master'
             }
         }
 
