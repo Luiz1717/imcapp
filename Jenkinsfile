@@ -2,7 +2,7 @@ pipeline {
   agent any
 
     environment {
-    FLUTTER_VERSION = '3.22.0'
+    FLUTTER_VERSION = '3.29.3'
         FLUTTER_HOME = "${env.WORKSPACE}/flutter"
         PATH = "${env.FLUTTER_HOME}/bin:${env.PATH}"
     }
