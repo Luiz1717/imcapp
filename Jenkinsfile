@@ -53,7 +53,7 @@ pipeline {
             steps {
                 sh '''
                     flutter analyze
-                    flutter test integration_test/
+                    flutter test 
                 '''
             }
         }
